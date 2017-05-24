@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by dnsfrolov on 22.05.2017.
  */
 
-public final class TokenServiceGenerator {
+public final class RequestServiceGenerator {
 
     private static UnsplashService mService;
     private static OkHttpClient mClient;
@@ -27,16 +27,9 @@ public final class TokenServiceGenerator {
     }
 
     @NonNull
-    public static void recreate() {
-        mClient = null;
-        mClient = getClient();
-        mService = buildRetrofit().create(UnsplashService.class);
-    }
-
-    @NonNull
     private static Retrofit buildRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_OAUTH_URL)
+                .baseUrl(Constants.BASE_API_URL)
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -55,6 +48,7 @@ public final class TokenServiceGenerator {
     private static OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(LoggingInterceptor.create())
+                .addInterceptor(TokenInterceptor.create())
                 .build();
     }
 }

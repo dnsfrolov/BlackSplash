@@ -3,7 +3,6 @@ package com.dnsfrolov.unsplashapi.data.interactor.impl;
 import android.support.annotation.NonNull;
 
 import com.dnsfrolov.unsplashapi.data.api.TokenServiceGenerator;
-import com.dnsfrolov.unsplashapi.data.api.UnsplashService;
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.LoginInteractor;
 import com.dnsfrolov.unsplashapi.data.models.TokenRequest;
@@ -36,6 +35,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                     AccountPrefs.setToken(response.body().getAccessToken());
+                    TokenServiceGenerator.recreate();
                 }
             }
 

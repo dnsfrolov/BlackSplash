@@ -12,9 +12,9 @@ public class Constants {
 
     public static final String OAUTH_URL = "https://unsplash.com/oauth/authorize";
 
-    public static final String CLIENT_ID = "bea75e5b5d4a8955d06830f6f3f97decefc4d3d02ea5f846f06d094370ff1cb8";
+    public static final String CLIENT_ID = "c9a4ee034e254bbc8304856c0c8f267ac5861f5a2b9711d50b0f53590d27ff5b";
 
-    public static final String CLIENT_SECRET = "43a1893e967965e9a064b3fef37721625d37a6b4de41080341bd6891667ccd49";
+    public static final String CLIENT_SECRET = "3a222fa0868ef4248416a66a2ea953ddd3bb8523cd2f0071ba4af1b83255937c";
 
     public static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 

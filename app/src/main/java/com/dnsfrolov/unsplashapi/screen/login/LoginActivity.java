@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.dnsfrolov.unsplashapi.R;
-import com.dnsfrolov.unsplashapi.screen.HomeActivity;
+import com.dnsfrolov.unsplashapi.screen.home.HomeActivity;
 import com.dnsfrolov.unsplashapi.utils.Constants;
 
 import butterknife.BindView;

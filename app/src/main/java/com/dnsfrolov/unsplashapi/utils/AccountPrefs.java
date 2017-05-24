@@ -10,6 +10,9 @@ import com.orhanobut.hawk.Hawk;
 
 public class AccountPrefs {
 
+    public AccountPrefs() {
+    }
+
     public static String getToken() {
         return Hawk.get(Constants.TOKEN, "");
     }

@@ -1,7 +1,5 @@
 package com.dnsfrolov.unsplashapi.screen.login;
 
-import android.webkit.WebViewClient;
-
 /**
  * Created by dnsfrolov on 19.05.2017.
  */

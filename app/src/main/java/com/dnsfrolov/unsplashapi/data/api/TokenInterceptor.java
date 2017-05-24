@@ -29,13 +29,13 @@ class TokenInterceptor implements Interceptor {
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        if (!TextUtils.isEmpty(mToken)) {
+        if (TextUtils.isEmpty(mToken)) {
             return chain.proceed(chain.request());
         }
 
         Request request = chain.request().newBuilder()
                 .addHeader("Accept-Version", "v1")
-                .addHeader("Authorization", "Bearer" + " " + mToken)
+                .addHeader("Authorization", "Bearer " + mToken)
                 .build();
 
         return chain.proceed(request);
