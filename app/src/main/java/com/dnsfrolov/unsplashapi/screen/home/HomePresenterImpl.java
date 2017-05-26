@@ -1,7 +1,9 @@
 package com.dnsfrolov.unsplashapi.screen.home;
 
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
+import com.dnsfrolov.unsplashapi.data.interactor.LikeInteractor;
 import com.dnsfrolov.unsplashapi.data.interactor.PhotoInteractor;
+import com.dnsfrolov.unsplashapi.data.interactor.impl.LikeInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.interactor.impl.PhotoInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 
@@ -14,16 +16,18 @@ import java.util.List;
 public class HomePresenterImpl implements HomeContract.HomePresenter {
 
     private HomeContract.HomeView mView;
-    private PhotoInteractor mInteractor;
+    private PhotoInteractor mPhotoInteractor;
+    private LikeInteractor mLikeInteractor;
 
     public HomePresenterImpl(HomeContract.HomeView mView) {
         this.mView = mView;
-        mInteractor = new PhotoInteractorImpl();
+        mPhotoInteractor = new PhotoInteractorImpl();
+        mLikeInteractor = new LikeInteractorImpl();
     }
 
     @Override
     public void loadPhotos(int page) {
-        mInteractor.getListOfPhotos(page, new InteractorCallback<List<Photo>>() {
+        mPhotoInteractor.getListOfPhotos(page, new InteractorCallback<List<Photo>>() {
             @Override
             public void onSuccess(List<Photo> response) {
                 if (response != null && !response.isEmpty()) {
@@ -39,7 +43,35 @@ public class HomePresenterImpl implements HomeContract.HomePresenter {
     }
 
     @Override
-    public void detachView() {
+    public void doLike(String id) {
+        mLikeInteractor.setLike(id, new InteractorCallback<Photo>() {
+            @Override
+            public void onSuccess(Photo response) {
+            }
 
+            @Override
+            public void onError(Throwable error) {
+                mView.showError(error);
+            }
+        });
+    }
+
+    @Override
+    public void doDislike(String id) {
+        mLikeInteractor.setDislike(id, new InteractorCallback<Photo>() {
+            @Override
+            public void onSuccess(Photo response) {
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                mView.showError(error);
+            }
+        });
+    }
+
+    @Override
+    public void detachView() {
+        mView = null;
     }
 }

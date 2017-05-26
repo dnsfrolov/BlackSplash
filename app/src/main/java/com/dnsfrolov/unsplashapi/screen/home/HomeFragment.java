@@ -14,6 +14,7 @@ import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.screen.adapter.PhotoAdapter;
 import com.dnsfrolov.unsplashapi.utils.EndlessRecyclerViewScrollListener;
+import com.dnsfrolov.unsplashapi.utils.OnItemClickListener;
 
 import java.util.List;
 
@@ -24,7 +25,10 @@ import butterknife.ButterKnife;
  * Created by dnsfrolov on 24.05.2017.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends Fragment implements HomeContract.HomeView,
+        SwipeRefreshLayout.OnRefreshListener,
+        OnItemClickListener.OnLikeClickListener<Photo>,
+        OnItemClickListener.OnPhotoClickListener<Photo> {
 
     @BindView(R.id.swipe_photo_list)
     SwipeRefreshLayout mRefreshLayout;
@@ -64,7 +68,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView, Swi
     }
 
     public void setAdapter() {
-        mAdapter = new PhotoAdapter();
+        mAdapter = new PhotoAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -98,5 +102,21 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView, Swi
     public void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+    }
+
+    @Override
+    public void onLikeClick(Photo item) {
+        if (item.isLikedByUser()) {
+            item.setLikedByUser(false);
+            mPresenter.doDislike(item.getId());
+        } else {
+            item.setLikedByUser(true);
+            mPresenter.doLike(item.getId());
+        }
+    }
+
+    @Override
+    public void onPhotoClick(Photo item) {
+
     }
 }

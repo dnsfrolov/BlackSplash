@@ -21,6 +21,10 @@ public interface HomeContract {
 
         void loadPhotos(int page);
 
+        void doLike(String id);
+
+        void doDislike(String id);
+
         void detachView();
     }
 }

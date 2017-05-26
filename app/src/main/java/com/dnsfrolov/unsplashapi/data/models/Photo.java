@@ -31,11 +31,22 @@ public class Photo {
     @SerializedName("likes")
     private int likes;
 
+    @SerializedName("liked_by_user")
+    private boolean isLikedByUser;
+
     @SerializedName("user")
     private User user;
 
     @SerializedName("urls")
     private Urls urls;
+
+    public boolean isLikedByUser() {
+        return isLikedByUser;
+    }
+
+    public void setLikedByUser(boolean likedByUser) {
+        isLikedByUser = likedByUser;
+    }
 
     public Urls getUrls() {
         return urls;

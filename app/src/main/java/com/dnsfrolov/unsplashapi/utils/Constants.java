@@ -22,7 +22,8 @@ public class Constants {
 
     public static final String RESPONSE_TYPE = "code";
 
-    public static final String SCOPE = "public+read_user+write_user+read_photos+write_likes";
+    public static final String SCOPE = "public+read_user+write_user+read_photos+write_photos+" +
+            "write_likes+write_followers+read_collections+write_collections";
 
     public static final String LOAD_AUTH_URL = OAUTH_URL +
             "?client_id=" + CLIENT_ID +
