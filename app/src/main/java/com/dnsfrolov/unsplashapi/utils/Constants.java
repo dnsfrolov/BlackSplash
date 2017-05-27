@@ -34,4 +34,14 @@ public class Constants {
     public static final String TOKEN = "token";
 
     public static final String PHOTO_ID = "photo_id";
+
+    public static final String LATEST = "latest";
+
+    public static final String OLDEST = "oldest";
+
+    public static final String POPULAR = "popular";
+
+    public static final String SORT_BY = "sortBy";
+
+    public static final int FIRST_PAGE = 1;
 }
