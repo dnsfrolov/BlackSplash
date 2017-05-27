@@ -26,8 +26,8 @@ public interface UnsplashService {
     @POST("/oauth/token")
     Call<TokenResponse> getToken(@Body TokenRequest requestParams);
 
-    @GET("/photos")
-    Call<List<Photo>> getPhotos(@Query("page") int page);
+    @GET("/photos?per_page=20")
+    Call<List<Photo>> getPhotos(@Query("page") int page, @Query("order_by") String sortBy);
 
     @POST("/photos/{id}/like")
     Call<Photo> setLike(@Path("id") String id);

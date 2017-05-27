@@ -16,6 +16,7 @@ import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.screen.adapter.PhotoAdapter;
 import com.dnsfrolov.unsplashapi.screen.photo.PhotoInfoDialog;
+import com.dnsfrolov.unsplashapi.utils.Constants;
 import com.dnsfrolov.unsplashapi.utils.EndlessRecyclerViewScrollListener;
 import com.dnsfrolov.unsplashapi.utils.OnItemClickListener;
 
@@ -46,8 +47,12 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     private HomeContract.HomePresenter mPresenter;
     private LinearLayoutManager mLayoutManager;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    public static HomeFragment newInstance(String sortBy) {
+        HomeFragment homeFragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(Constants.SORT_BY, sortBy);
+        homeFragment.setArguments(args);
+        return homeFragment;
     }
 
     @Nullable
@@ -60,13 +65,13 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
         setAdapter();
 
         mPresenter = new HomePresenterImpl(this);
-        mPresenter.loadPhotos(1);
+        mPresenter.loadPhotos(Constants.FIRST_PAGE, getArguments().getString(Constants.SORT_BY));
 
         mRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int currentPage, int totalItemCount) {
-                mPresenter.loadPhotos(++currentPage);
+                mPresenter.loadPhotos(++currentPage, getArguments().getString(Constants.SORT_BY));
             }
         });
 
@@ -114,7 +119,7 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     public void onRefresh() {
         mAdapter.restoreData();
         mAdapter.notifyDataSetChanged();
-        mPresenter.loadPhotos(1);
+        mPresenter.loadPhotos(Constants.FIRST_PAGE, getArguments().getString(Constants.SORT_BY));
     }
 
     @Override
@@ -138,7 +143,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     public void onPhotoClick(Photo item) {
         if (item != null) {
             PhotoInfoDialog.newInstance(item.getId()).show(getFragmentManager(), null);
-
         }
     }
 }

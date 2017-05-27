@@ -23,7 +23,7 @@ public interface HomeContract {
 
     interface HomePresenter {
 
-        void loadPhotos(int page);
+        void loadPhotos(int page, String sortBy);
 
         void doLike(String id);
 

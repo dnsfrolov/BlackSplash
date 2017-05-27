@@ -24,9 +24,9 @@ import retrofit2.Response;
 public class PhotoInteractorImpl implements PhotoInteractor {
 
     @Override
-    public void getListOfPhotos(int page, final InteractorCallback<List<Photo>> callback) {
+    public void getListOfPhotos(int page, String sortBy, final InteractorCallback<List<Photo>> callback) {
 
-        RequestServiceGenerator.getUnsplashService().getPhotos(page).enqueue(new Callback<List<Photo>>() {
+        RequestServiceGenerator.getUnsplashService().getPhotos(page, sortBy).enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(@NonNull Call<List<Photo>> call, @NonNull Response<List<Photo>> response) {
                 if (response.isSuccessful() && response.body() != null) {

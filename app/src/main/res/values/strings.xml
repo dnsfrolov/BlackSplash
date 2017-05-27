@@ -3,4 +3,8 @@
     <string name="by">By</string>
     <string name="photos">Photos</string>
     <string name="collections">Collections</string>
+    <string name="sort_by">Sort by</string>
+    <string name="latest">Latest</string>
+    <string name="oldest">Oldest</string>
+    <string name="popular">Popular</string>
 </resources>

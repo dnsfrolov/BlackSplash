@@ -26,18 +26,18 @@ public class HomePresenterImpl implements HomeContract.HomePresenter {
     }
 
     @Override
-    public void loadPhotos(int page) {
+    public void loadPhotos(int page, String sortBy) {
         if (mView != null) {
             mView.showProgressIndicator();
         }
 
-        mPhotoInteractor.getListOfPhotos(page, new InteractorCallback<List<Photo>>() {
+        mPhotoInteractor.getListOfPhotos(page, sortBy, new InteractorCallback<List<Photo>>() {
             @Override
             public void onSuccess(List<Photo> response) {
                 if (response != null && !response.isEmpty()) {
                     mView.showPhotos(response);
+                    mView.hideProgressIndicator();
                 }
-                mView.hideProgressIndicator();
             }
 
             @Override
@@ -50,9 +50,6 @@ public class HomePresenterImpl implements HomeContract.HomePresenter {
 
     @Override
     public void doLike(String id) {
-        if (mView != null) {
-            mView.showProgressIndicator();
-        }
 
         mLikeInteractor.setLike(id, new InteractorCallback<Photo>() {
             @Override
@@ -63,16 +60,12 @@ public class HomePresenterImpl implements HomeContract.HomePresenter {
             @Override
             public void onError(Throwable error) {
                 mView.showError(error);
-                mView.hideProgressIndicator();
             }
         });
     }
 
     @Override
     public void doDislike(String id) {
-        if (mView != null) {
-            mView.showProgressIndicator();
-        }
 
         mLikeInteractor.setDislike(id, new InteractorCallback<Photo>() {
             @Override
@@ -83,7 +76,6 @@ public class HomePresenterImpl implements HomeContract.HomePresenter {
             @Override
             public void onError(Throwable error) {
                 mView.showError(error);
-                mView.hideProgressIndicator();
             }
         });
     }
