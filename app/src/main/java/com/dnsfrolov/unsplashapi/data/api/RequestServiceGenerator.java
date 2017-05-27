@@ -27,7 +27,7 @@ public final class RequestServiceGenerator {
     }
 
     @NonNull
-    private static Retrofit buildRetrofit() {
+    public static Retrofit buildRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_API_URL)
                 .client(getClient())

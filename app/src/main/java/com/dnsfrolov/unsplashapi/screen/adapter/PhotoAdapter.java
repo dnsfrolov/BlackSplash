@@ -65,10 +65,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             public void onClick(View v) {
                 mLikeListener.onLikeClick(mList.get(holder.getAdapterPosition()));
                 notifyItemChanged(holder.getAdapterPosition());
+                notifyItemChanged(holder.getAdapterPosition(), holder.mLikesCount);
             }
         });
 
-        holder.mPhotoCardWidget.setOnClickListener(new View.OnClickListener() {
+        holder.mPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPhotoListener.onPhotoClick(mList.get(holder.getAdapterPosition()));
@@ -98,8 +99,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
         @BindView(R.id.like_view)
         ImageView mLikeView;
 
-        @BindView(R.id.photo_card_widget)
-        CardView mPhotoCardWidget;
+        @BindView(R.id.tv_likes_count)
+        TextView mLikesCount;
 
         public PhotoHolder(View itemView) {
             super(itemView);
@@ -126,6 +127,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             } else {
                 mLastname.setVisibility(View.GONE);
             }
+
+            mLikesCount.setText(String.valueOf(photo.getLikes()));
 
             if (photo.isLikedByUser()) {
                 mLikeView.setImageResource(R.drawable.heart);

@@ -11,4 +11,6 @@ import java.util.List;
 public interface PhotoInteractor {
 
     void getListOfPhotos(int page, InteractorCallback<List<Photo>> callback);
+
+    void getPhoto(String id, InteractorCallback<Photo> callback);
 }

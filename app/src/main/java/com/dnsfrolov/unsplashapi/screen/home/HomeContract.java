@@ -12,6 +12,10 @@ public interface HomeContract {
 
     interface HomeView {
 
+        void showProgressIndicator();
+
+        void hideProgressIndicator();
+
         void showPhotos(List<Photo> photoList);
 
         void showError(Throwable error);

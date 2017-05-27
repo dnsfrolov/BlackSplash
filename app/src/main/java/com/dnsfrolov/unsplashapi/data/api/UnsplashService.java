@@ -34,4 +34,7 @@ public interface UnsplashService {
 
     @DELETE("/photos/{id}/like")
     Call<Photo> setDislike(@Path("id") String id);
+
+    @GET("/photos/{id}")
+    Call<Photo> getPhoto(@Path("id") String id);
 }

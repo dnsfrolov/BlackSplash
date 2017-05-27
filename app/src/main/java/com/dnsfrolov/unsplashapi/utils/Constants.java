@@ -32,4 +32,6 @@ public class Constants {
             "&scope=" + SCOPE;
 
     public static final String TOKEN = "token";
+
+    public static final String PHOTO_ID = "photo_id";
 }

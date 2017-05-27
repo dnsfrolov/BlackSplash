@@ -54,14 +54,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="8dp" />
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/colorBlack" />
 
                     <TextView
                         android:id="@+id/tv_lastname_photo_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="8dp" />
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/colorBlack" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -75,6 +77,13 @@
                             android:layout_alignParentEnd="true"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:clickable="true" />
+
+                        <TextView
+                            android:id="@+id/tv_likes_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/like_view"
+                            android:textColor="@color/colorBlack" />
 
                     </RelativeLayout>
 

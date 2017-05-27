@@ -9,10 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.screen.adapter.PhotoAdapter;
+import com.dnsfrolov.unsplashapi.screen.photo.PhotoInfoDialog;
 import com.dnsfrolov.unsplashapi.utils.EndlessRecyclerViewScrollListener;
 import com.dnsfrolov.unsplashapi.utils.OnItemClickListener;
 
@@ -35,6 +38,9 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
 
     @BindView(R.id.recycler_photo_list)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     private PhotoAdapter mAdapter;
     private HomeContract.HomePresenter mPresenter;
@@ -80,6 +86,18 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     }
 
     @Override
+    public void showProgressIndicator() {
+        mRefreshLayout.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        mRefreshLayout.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showPhotos(List<Photo> photoList) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.setData(photoList);
@@ -88,7 +106,8 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
 
     @Override
     public void showError(Throwable error) {
-
+        mRefreshLayout.setRefreshing(false);
+        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -117,6 +136,9 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
 
     @Override
     public void onPhotoClick(Photo item) {
+        if (item != null) {
+            PhotoInfoDialog.newInstance(item.getId()).show(getFragmentManager(), null);
 
+        }
     }
 }
