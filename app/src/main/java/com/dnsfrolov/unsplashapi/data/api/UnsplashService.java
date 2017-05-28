@@ -37,4 +37,7 @@ public interface UnsplashService {
 
     @GET("/photos/{id}")
     Call<Photo> getPhoto(@Path("id") String id);
+
+    @GET("/photos/random")
+    Call<Photo> getRandomPhoto();
 }

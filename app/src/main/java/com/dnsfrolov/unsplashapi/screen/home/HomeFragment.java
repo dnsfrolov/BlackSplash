@@ -145,4 +145,10 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
             PhotoInfoDialog.newInstance(item.getId()).show(getFragmentManager(), null);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.detachView();
+    }
 }

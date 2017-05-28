@@ -137,4 +137,10 @@ public class PhotoInfoDialog extends DialogFragment implements PhotoInfoContract
         Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         getDialog().cancel();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.detachView();
+    }
 }

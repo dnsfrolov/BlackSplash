@@ -1,6 +1,5 @@
 package com.dnsfrolov.unsplashapi.screen.adapter;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,10 +89,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
         @BindView(R.id.avatar_view)
         CircleImageView mAvatarView;
 
-        @BindView(R.id.tv_firstname_photo_list)
+        @BindView(R.id.tv_firstname_photo_dialog)
         TextView mFirstname;
 
-        @BindView(R.id.tv_lastname_photo_list)
+        @BindView(R.id.tv_lastname_photo_dialog)
         TextView mLastname;
 
         @BindView(R.id.like_view)
@@ -131,8 +130,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             mLikesCount.setText(String.valueOf(photo.getLikes()));
 
             if (photo.isLikedByUser()) {
+                mLikesCount.setText(String.valueOf(photo.getLikes() + 1));
                 mLikeView.setImageResource(R.drawable.heart);
             } else {
+                mLikesCount.setText(String.valueOf(photo.getLikes()));
                 mLikeView.setImageResource(R.drawable.heart_outline);
             }
         }

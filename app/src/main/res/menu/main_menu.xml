@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_random_photo"
+        android:icon="@drawable/random"
+        android:title="@string/random_photo"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_sort_by"
         android:icon="@drawable/filter_variant"
         android:title="@string/sort_by"

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.dnsfrolov.unsplashapi.R;
+import com.dnsfrolov.unsplashapi.screen.photo.random.RandomPhotoDialog;
 import com.dnsfrolov.unsplashapi.utils.Constants;
 
 import butterknife.BindView;
@@ -53,6 +54,9 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         switch (item.getItemId()) {
+            case R.id.action_random_photo:
+                RandomPhotoDialog.newInstance().show(getSupportFragmentManager(), null);
+                return true;
             case R.id.menu_item_latest:
                 fragmentTransaction.replace(R.id.fl_container, HomeFragment.newInstance(Constants.LATEST)).commit();
                 return true;

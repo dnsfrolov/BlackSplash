@@ -1,15 +1,11 @@
 package com.dnsfrolov.unsplashapi.data.interactor.impl;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.dnsfrolov.unsplashapi.UnsplashApplication;
 import com.dnsfrolov.unsplashapi.data.api.RequestServiceGenerator;
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.PhotoInteractor;
-import com.dnsfrolov.unsplashapi.data.models.APIError;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
-import com.dnsfrolov.unsplashapi.utils.ErrorUtils;
 
 import java.util.List;
 
@@ -31,9 +27,6 @@ public class PhotoInteractorImpl implements PhotoInteractor {
             public void onResponse(@NonNull Call<List<Photo>> call, @NonNull Response<List<Photo>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    Toast.makeText(UnsplashApplication.getInstance(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -52,9 +45,24 @@ public class PhotoInteractorImpl implements PhotoInteractor {
             public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    Toast.makeText(UnsplashApplication.getInstance(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Photo> call, @NonNull Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    @Override
+    public void getRandomPhoto(final InteractorCallback<Photo> callback) {
+
+        RequestServiceGenerator.getUnsplashService().getRandomPhoto().enqueue(new Callback<Photo>() {
+            @Override
+            public void onResponse(@NonNull Call<Photo> call, @NonNull Response<Photo> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
                 }
             }
 

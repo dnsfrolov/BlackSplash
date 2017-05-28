@@ -13,4 +13,6 @@ public interface PhotoInteractor {
     void getListOfPhotos(int page, String sortBy, InteractorCallback<List<Photo>> callback);
 
     void getPhoto(String id, InteractorCallback<Photo> callback);
+
+    void getRandomPhoto(InteractorCallback<Photo> callback);
 }

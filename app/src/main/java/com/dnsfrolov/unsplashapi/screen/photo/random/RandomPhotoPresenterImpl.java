@@ -1,4 +1,4 @@
-package com.dnsfrolov.unsplashapi.screen.home;
+package com.dnsfrolov.unsplashapi.screen.photo.random;
 
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.LikeInteractor;
@@ -7,35 +7,33 @@ import com.dnsfrolov.unsplashapi.data.interactor.impl.LikeInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.interactor.impl.PhotoInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 
-import java.util.List;
-
 /**
- * Created by dnsfrolov on 23.05.2017.
+ * Created by dnsfrolov on 28.05.2017.
  */
 
-public class HomePresenterImpl implements HomeContract.HomePresenter {
+public class RandomPhotoPresenterImpl implements RandomPhotoContract.RandomPhotoPresenter {
 
-    private HomeContract.HomeView mView;
+    private RandomPhotoContract.RandomPhotoView mView;
     private PhotoInteractor mPhotoInteractor;
     private LikeInteractor mLikeInteractor;
 
-    public HomePresenterImpl(HomeContract.HomeView mView) {
+    public RandomPhotoPresenterImpl(RandomPhotoContract.RandomPhotoView mView) {
         this.mView = mView;
         mPhotoInteractor = new PhotoInteractorImpl();
         mLikeInteractor = new LikeInteractorImpl();
     }
 
     @Override
-    public void loadPhotos(int page, String sortBy) {
+    public void loadRandomPhoto() {
         if (mView != null) {
             mView.showProgressIndicator();
         }
 
-        mPhotoInteractor.getListOfPhotos(page, sortBy, new InteractorCallback<List<Photo>>() {
+        mPhotoInteractor.getRandomPhoto(new InteractorCallback<Photo>() {
             @Override
-            public void onSuccess(List<Photo> response) {
-                if (response != null && !response.isEmpty()) {
-                    mView.showPhotos(response);
+            public void onSuccess(Photo response) {
+                if (response != null) {
+                    mView.showRandomPhoto(response);
                     mView.hideProgressIndicator();
                 }
             }
