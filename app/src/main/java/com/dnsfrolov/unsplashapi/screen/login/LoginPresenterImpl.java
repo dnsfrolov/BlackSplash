@@ -21,15 +21,21 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
 
     @Override
     public void signIn(String code) {
+        if (mView != null) {
+            mView.showProgressIndicator();
+        }
+
         mInteractor.getToken(code, new InteractorCallback<TokenResponse>() {
             @Override
             public void onSuccess(TokenResponse response) {
                 mView.loginSuccess();
+                mView.hideProgressIndicator();
             }
 
             @Override
             public void onError(Throwable error) {
                 mView.showError();
+                mView.hideProgressIndicator();
             }
         });
     }

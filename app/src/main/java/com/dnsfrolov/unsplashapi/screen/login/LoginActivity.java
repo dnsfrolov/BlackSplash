@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.screen.home.HomeActivity;
@@ -19,6 +21,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     @BindView(R.id.web_view)
     WebView mWebView;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
+
     private LoginContract.LoginPresenter mPresenter;
 
     @Override
@@ -28,6 +33,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         ButterKnife.bind(this);
 
         mPresenter = new LoginPresenterImpl(this);
+    }
+
+    @Override
+    public void showProgressIndicator() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

@@ -8,6 +8,10 @@ public interface LoginContract {
 
     interface LoginView {
 
+        void showProgressIndicator();
+
+        void hideProgressIndicator();
+
         void loginSuccess();
 
         void showError();
