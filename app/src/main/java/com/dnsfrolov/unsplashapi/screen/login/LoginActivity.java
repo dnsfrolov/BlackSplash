@@ -16,7 +16,7 @@ import com.dnsfrolov.unsplashapi.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.LoginView {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @BindView(R.id.web_view)
     WebView mWebView;
@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
 
-    private LoginContract.LoginPresenter mPresenter;
+    LoginPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        mPresenter = new LoginPresenterImpl(this);
+        mPresenter = new LoginPresenter();
     }
 
     @Override
@@ -73,11 +73,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         });
 
         mWebView.loadUrl(Constants.LOAD_AUTH_URL);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.detachView();
     }
 }

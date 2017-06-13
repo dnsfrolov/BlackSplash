@@ -1,5 +1,7 @@
-package com.dnsfrolov.unsplashapi.screen.photo.random;
+package com.dnsfrolov.unsplashapi.screen.home;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.LikeInteractor;
 import com.dnsfrolov.unsplashapi.data.interactor.PhotoInteractor;
@@ -7,46 +9,45 @@ import com.dnsfrolov.unsplashapi.data.interactor.impl.LikeInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.interactor.impl.PhotoInteractorImpl;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 
+import java.util.List;
+
 /**
- * Created by dnsfrolov on 28.05.2017.
+ * Created by dnsfrolov on 23.05.2017.
  */
 
-public class RandomPhotoPresenterImpl implements RandomPhotoContract.RandomPhotoPresenter {
+@InjectViewState
+public class HomePresenter extends MvpPresenter<HomeView> {
 
-    private RandomPhotoContract.RandomPhotoView mView;
     private PhotoInteractor mPhotoInteractor;
     private LikeInteractor mLikeInteractor;
 
-    public RandomPhotoPresenterImpl(RandomPhotoContract.RandomPhotoView mView) {
-        this.mView = mView;
+    public HomePresenter() {
         mPhotoInteractor = new PhotoInteractorImpl();
         mLikeInteractor = new LikeInteractorImpl();
     }
 
-    @Override
-    public void loadRandomPhoto() {
-        if (mView != null) {
-            mView.showProgressIndicator();
+    public void loadPhotos(int page, String sortBy) {
+        if (getViewState() != null) {
+            getViewState().showProgressIndicator();
         }
 
-        mPhotoInteractor.getRandomPhoto(new InteractorCallback<Photo>() {
+        mPhotoInteractor.getListOfPhotos(page, sortBy, new InteractorCallback<List<Photo>>() {
             @Override
-            public void onSuccess(Photo response) {
-                if (response != null) {
-                    mView.showRandomPhoto(response);
-                    mView.hideProgressIndicator();
+            public void onSuccess(List<Photo> response) {
+                if (response != null && !response.isEmpty()) {
+                    getViewState().showPhotos(response);
+                    getViewState().hideProgressIndicator();
                 }
             }
 
             @Override
             public void onError(Throwable error) {
-                mView.showError(error);
-                mView.hideProgressIndicator();
+                getViewState().showError(error);
+                getViewState().hideProgressIndicator();
             }
         });
     }
 
-    @Override
     public void doLike(String id) {
 
         mLikeInteractor.setLike(id, new InteractorCallback<Photo>() {
@@ -56,12 +57,11 @@ public class RandomPhotoPresenterImpl implements RandomPhotoContract.RandomPhoto
 
             @Override
             public void onError(Throwable error) {
-                mView.showError(error);
+                getViewState().showError(error);
             }
         });
     }
 
-    @Override
     public void doDislike(String id) {
 
         mLikeInteractor.setDislike(id, new InteractorCallback<Photo>() {
@@ -71,13 +71,8 @@ public class RandomPhotoPresenterImpl implements RandomPhotoContract.RandomPhoto
 
             @Override
             public void onError(Throwable error) {
-                mView.showError(error);
+                getViewState().showError(error);
             }
         });
-    }
-
-    @Override
-    public void detachView() {
-        mView = null;
     }
 }

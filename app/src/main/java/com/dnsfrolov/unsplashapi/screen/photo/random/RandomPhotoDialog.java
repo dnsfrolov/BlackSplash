@@ -3,7 +3,6 @@ package com.dnsfrolov.unsplashapi.screen.photo.random;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatDialogFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.screen.photo.PhotoInfoDialog;
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by dnsfrolov on 28.05.2017.
  */
 
-public class RandomPhotoDialog extends DialogFragment implements RandomPhotoContract.RandomPhotoView {
+public class RandomPhotoDialog extends MvpAppCompatDialogFragment implements RandomPhotoView {
 
     @BindView(R.id.photo_view)
     ImageView mPhotoView;
@@ -52,7 +53,8 @@ public class RandomPhotoDialog extends DialogFragment implements RandomPhotoCont
     @BindView(R.id.photo_card_widget)
     CardView mBaseLayout;
 
-    private RandomPhotoContract.RandomPhotoPresenter mPresenter;
+    @InjectPresenter
+    RandomPhotoPresenter mPresenter;
 
     public static RandomPhotoDialog newInstance() {
         return new RandomPhotoDialog();
@@ -64,7 +66,6 @@ public class RandomPhotoDialog extends DialogFragment implements RandomPhotoCont
         View root = LayoutInflater.from(getActivity()).inflate(R.layout.random_photo_dialog, null, false);
         ButterKnife.bind(this, root);
 
-        mPresenter = new RandomPhotoPresenterImpl(this);
         mPresenter.loadRandomPhoto();
 
         return new AlertDialog.Builder(getActivity())
@@ -135,11 +136,5 @@ public class RandomPhotoDialog extends DialogFragment implements RandomPhotoCont
     public void showError(Throwable error) {
         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
         getDialog().cancel();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mPresenter.detachView();
     }
 }

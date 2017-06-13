@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.screen.adapter.PhotoAdapter;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by dnsfrolov on 24.05.2017.
  */
 
-public class HomeFragment extends Fragment implements HomeContract.HomeView,
+public class HomeFragment extends MvpAppCompatFragment implements HomeView,
         SwipeRefreshLayout.OnRefreshListener,
         OnItemClickListener.OnLikeClickListener<Photo>,
         OnItemClickListener.OnPhotoClickListener<Photo> {
@@ -43,8 +45,9 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
 
+    @InjectPresenter
+    HomePresenter mPresenter;
     private PhotoAdapter mAdapter;
-    private HomeContract.HomePresenter mPresenter;
     private LinearLayoutManager mLayoutManager;
 
     public static HomeFragment newInstance(String sortBy) {
@@ -64,7 +67,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
         setLayoutManager();
         setAdapter();
 
-        mPresenter = new HomePresenterImpl(this);
         mPresenter.loadPhotos(Constants.FIRST_PAGE, getArguments().getString(Constants.SORT_BY));
 
         mRefreshLayout.setOnRefreshListener(this);
@@ -123,12 +125,6 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.detachView();
-    }
-
-    @Override
     public void onLikeClick(Photo item) {
         if (item.isLikedByUser()) {
             item.setLikedByUser(false);
@@ -144,11 +140,5 @@ public class HomeFragment extends Fragment implements HomeContract.HomeView,
         if (item != null) {
             PhotoInfoDialog.newInstance(item.getId()).show(getFragmentManager(), null);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mPresenter.detachView();
     }
 }

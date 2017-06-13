@@ -1,5 +1,7 @@
 package com.dnsfrolov.unsplashapi.screen.login;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.LoginInteractor;
 import com.dnsfrolov.unsplashapi.data.interactor.impl.LoginInteractorImpl;
@@ -9,39 +11,32 @@ import com.dnsfrolov.unsplashapi.data.models.TokenResponse;
  * Created by dnsfrolov on 22.05.2017.
  */
 
-public class LoginPresenterImpl implements LoginContract.LoginPresenter {
+@InjectViewState
+public class LoginPresenter extends MvpPresenter<LoginView> {
 
-    private LoginContract.LoginView mView;
     private LoginInteractor mInteractor;
 
-    public LoginPresenterImpl(LoginContract.LoginView mView) {
-        this.mView = mView;
+    public LoginPresenter() {
         this.mInteractor = new LoginInteractorImpl();
     }
 
-    @Override
     public void signIn(String code) {
-        if (mView != null) {
-            mView.showProgressIndicator();
+        if (getViewState() != null) {
+            getViewState().showProgressIndicator();
         }
 
         mInteractor.getToken(code, new InteractorCallback<TokenResponse>() {
             @Override
             public void onSuccess(TokenResponse response) {
-                mView.loginSuccess();
-                mView.hideProgressIndicator();
+                getViewState().loginSuccess();
+                getViewState().hideProgressIndicator();
             }
 
             @Override
             public void onError(Throwable error) {
-                mView.showError();
-                mView.hideProgressIndicator();
+                getViewState().showError();
+                getViewState().hideProgressIndicator();
             }
         });
-    }
-
-    @Override
-    public void detachView() {
-        mView = null;
     }
 }

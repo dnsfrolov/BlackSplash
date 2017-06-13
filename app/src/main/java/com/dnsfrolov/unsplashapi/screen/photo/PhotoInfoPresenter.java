@@ -1,5 +1,7 @@
 package com.dnsfrolov.unsplashapi.screen.photo;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.dnsfrolov.unsplashapi.data.interactor.InteractorCallback;
 import com.dnsfrolov.unsplashapi.data.interactor.PhotoInteractor;
 import com.dnsfrolov.unsplashapi.data.interactor.impl.PhotoInteractorImpl;
@@ -9,41 +11,35 @@ import com.dnsfrolov.unsplashapi.data.models.Photo;
  * Created by dnsfrolov on 26.05.2017.
  */
 
-public class PhotoInfoPresenterImpl implements PhotoInfoContract.PhotoInfoPresenter {
+@InjectViewState
+public class PhotoInfoPresenter extends MvpPresenter<PhotoInfoView> {
 
-    private PhotoInfoContract.PhotoInfoView mView;
     private PhotoInteractor mPhotoInteractor;
+    private PhotoInfoView view;
 
-    public PhotoInfoPresenterImpl(PhotoInfoContract.PhotoInfoView mView) {
-        this.mView = mView;
+    public PhotoInfoPresenter() {
         mPhotoInteractor = new PhotoInteractorImpl();
     }
 
-    @Override
     public void loadChosenPhoto(String id) {
-        if (mView != null) {
-            mView.showProgressIndicator();
+        if (view == null) {
+            getViewState().showProgressIndicator();
         }
 
         mPhotoInteractor.getPhoto(id, new InteractorCallback<Photo>() {
             @Override
             public void onSuccess(Photo response) {
                 if (response != null) {
-                    mView.showPhotoInfo(response);
-                    mView.hideProgressIndicator();
+                    getViewState().showPhotoInfo(response);
+                    getViewState().hideProgressIndicator();
                 }
             }
 
             @Override
             public void onError(Throwable error) {
-                mView.showError(error);
-                mView.hideProgressIndicator();
+                getViewState().showError(error);
+                getViewState().hideProgressIndicator();
             }
         });
-    }
-
-    @Override
-    public void detachView() {
-        mView = null;
     }
 }

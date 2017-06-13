@@ -3,7 +3,6 @@ package com.dnsfrolov.unsplashapi.screen.photo;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatDialogFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.dnsfrolov.unsplashapi.R;
 import com.dnsfrolov.unsplashapi.data.models.Photo;
 import com.dnsfrolov.unsplashapi.utils.Constants;
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by dnsfrolov on 26.05.2017.
  */
 
-public class PhotoInfoDialog extends DialogFragment implements PhotoInfoContract.PhotoInfoView {
+public class PhotoInfoDialog extends MvpAppCompatDialogFragment implements PhotoInfoView {
 
     @BindView(R.id.avatar_view)
     CircleImageView mAvatarView;
@@ -58,7 +59,8 @@ public class PhotoInfoDialog extends DialogFragment implements PhotoInfoContract
     @BindView(R.id.ll_dialog)
     LinearLayout mBaseLayout;
 
-    private PhotoInfoContract.PhotoInfoPresenter mPresenter;
+    @InjectPresenter
+    PhotoInfoPresenter mPresenter;
 
     public static PhotoInfoDialog newInstance(String id) {
 
@@ -77,7 +79,7 @@ public class PhotoInfoDialog extends DialogFragment implements PhotoInfoContract
         View root = LayoutInflater.from(getActivity()).inflate(R.layout.photo_info_dialog, null, false);
         ButterKnife.bind(this, root);
 
-        mPresenter = new PhotoInfoPresenterImpl(this);
+        mPresenter = new PhotoInfoPresenter();
         mPresenter.loadChosenPhoto(getArguments().getString(Constants.PHOTO_ID));
 
         return new AlertDialog.Builder(getActivity())
@@ -136,11 +138,5 @@ public class PhotoInfoDialog extends DialogFragment implements PhotoInfoContract
     public void showError(Throwable error) {
         Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         getDialog().cancel();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mPresenter.detachView();
     }
 }
